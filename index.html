@@ -1,0 +1,281 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>بوابة شحن الألعاب النيون | Gaming Charge Portal</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <div class="app-container">
+        <!-- Header -->
+        <header class="header">
+            <div class="logo-container">
+                <span class="logo-icon">🎮</span>
+            </div>
+            <h1>بوابة شحن الألعاب</h1>
+            <p>اشحن جواهرك وشداتك المفضلة فوراً وبأمان</p>
+        </header>
+
+        <!-- Netlify Connected Form -->
+        <form name="TopUpOrders" method="POST" data-netlify="true" id="chargeForm" action="/success.html">
+            <!-- Hidden input for Netlify bot detection or form identification -->
+            <input type="hidden" name="form-name" value="TopUpOrders" />
+
+            <!-- Game Selection -->
+            <div class="form-group">
+                <label class="form-label" for="gameSelect">اختر اللعبة المطلوبة 🏆</label>
+                <select name="game" id="gameSelect" class="form-select" required>
+                    <option value="" disabled selected hidden>اختر لعبتك...</option>
+                    <option value="Free Fire">Free Fire (فري فاير)</option>
+                    <option value="PUBG">PUBG (ببجي موبايل)</option>
+                    <option value="Roblox">Roblox (روبلوكس)</option>
+                    <option value="PES">PES (بيس فوتبول)</option>
+                </select>
+            </div>
+
+            <!-- Quantity Selection -->
+            <div class="form-group">
+                <label class="form-label" for="quantitySelect">الكمية المطلوبة 💎</label>
+                <select name="quantity" id="quantitySelect" class="form-select" required>
+                    <option value="" disabled selected hidden>اختر اللعبة أولاً...</option>
+                </select>
+            </div>
+
+            <!-- Price Display -->
+            <div class="form-group price-display-container" id="priceDisplayContainer" style="display: none;">
+                <label class="form-label">السعر الإجمالي المطلوب دفعه 💰</label>
+                <div class="price-box">
+                    <span class="price-value" id="priceValue">0</span>
+                    <span class="price-currency">جنيه مصري (EGP)</span>
+                </div>
+            </div>
+
+            <!-- Charging Method Options -->
+            <div class="form-group">
+                <label class="form-label">طريقة الشحن ⚡</label>
+                <div class="radio-cards-container">
+                    <label class="radio-card">
+                        <input type="radio" name="charge_method" value="ID" id="methodId" required checked />
+                        <span class="radio-card-content">
+                            <span class="radio-icon">🆔</span>
+                            <span>شحن عبر الـ ID</span>
+                        </span>
+                    </label>
+                    <label class="radio-card">
+                        <input type="radio" name="charge_method" value="Account" id="methodAccount" />
+                        <span class="radio-card-content">
+                            <span class="radio-icon">🔑</span>
+                            <span>شحن عبر الحساب</span>
+                        </span>
+                    </label>
+                </div>
+            </div>
+
+            <!-- Dynamic Input Container: Player ID (Visible by default since ID is checked) -->
+            <div id="idFieldsContainer" class="form-group dynamic-fields-wrapper active">
+                <label class="form-label" for="playerIdInput">معرّف اللاعب (Player ID) 👤</label>
+                <input type="number" name="player_id" id="playerIdInput" class="form-control" placeholder="أدخل الـ ID الخاص بك في اللعبة" required />
+            </div>
+
+            <!-- Dynamic Input Container: Account Details (Hidden by default) -->
+            <div id="accountFieldsContainer" class="dynamic-fields-wrapper">
+                <div class="account-fields-grid form-group">
+                    <div>
+                        <label class="form-label" for="accountEmail">البريد الإلكتروني 📧</label>
+                        <input type="text" name="account_email" id="accountEmail" class="form-control" placeholder="البريد الإلكتروني للحساب" />
+                    </div>
+                    <div>
+                        <label class="form-label" for="accountPassword">كلمة المرور 🔒</label>
+                        <input type="password" name="account_password" id="accountPassword" class="form-control" placeholder="كلمة مرور الحساب" />
+                    </div>
+                </div>
+            </div>
+
+            <!-- Payment Information Banner -->
+            <div class="payment-info-box">
+                <div class="payment-info-icon">💸</div>
+                <div class="payment-info-text">
+                    <div class="payment-info-title">طرق الدفع المتوفرة حالياً: فودافون كاش</div>
+                    <div class="payment-info-desc">
+                        لإتمام عملية الشحن، يرجى تحويل المبلغ على رقم فودافون كاش: 
+                        <span class="copy-badge" onclick="copyNumber()" id="copyBadge" title="اضغط لنسخ الرقم">
+                            <strong id="vodafoneNum">010-169-55335</strong>
+                            <span class="copy-tooltip" id="copyTooltip">اضغط للنسخ</span>
+                        </span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Payment Confirmation Details -->
+            <div class="form-group">
+                <label class="form-label">تأكيد عملية التحويل 🧾</label>
+                <div class="payment-details-grid">
+                    <div>
+                        <label class="form-sub-label" for="senderNumber">الرقم اللي حولت منه 📱</label>
+                        <input type="tel" name="sender_number" id="senderNumber" class="form-control" placeholder="رقم الهاتف المكون من 11 رقم" required pattern="[0-9]{11}" minlength="11" maxlength="11" title="يرجى إدخال رقم هاتف فودافون كاش صحيح مكون من 11 رقم" />
+                    </div>
+                    <div>
+                        <label class="form-sub-label" for="transferTime">وقت التحويل 🕒</label>
+                        <input type="time" name="transfer_time" id="transferTime" class="form-control" required />
+                    </div>
+                </div>
+                <p class="warning-text">⚠️ يرجى التأكد من كتابة الرقم اللي حولت منه والساعة بشكل صحيح جداً لتجنب تأخير عملية الشحن.</p>
+            </div>
+
+            <!-- Submit Button -->
+            <div class="submit-btn-container">
+                <button type="submit" class="submit-btn">
+                    <span>إرسال الطلب</span>
+                    <span>🚀</span>
+                </button>
+            </div>
+
+            <!-- Support Section -->
+            <div class="support-section">
+                <span class="support-icon">💬</span>
+                <span>للتواصل أو في حالة وجود مشكلة، راسلنا عبر الواتساب: 
+                    <a href="https://wa.me/201140160864" target="_blank" class="whatsapp-link">
+                        <strong>01140160864</strong>
+                    </a>
+                </span>
+            </div>
+        </form>
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <p>جميع الحقوق محفوظة &copy; 2026. تعمل بواسطة <a href="#">Netlify Forms</a></p>
+    </footer>
+
+    <!-- Interactive JavaScript -->
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const methodId = document.getElementById('methodId');
+            const methodAccount = document.getElementById('methodAccount');
+            
+            const idFieldsContainer = document.getElementById('idFieldsContainer');
+            const accountFieldsContainer = document.getElementById('accountFieldsContainer');
+            
+            const playerIdInput = document.getElementById('playerIdInput');
+            const accountEmailInput = document.getElementById('accountEmail');
+            const accountPasswordInput = document.getElementById('accountPassword');
+
+            const gameSelect = document.getElementById('gameSelect');
+            const quantitySelect = document.getElementById('quantitySelect');
+            const priceDisplayContainer = document.getElementById('priceDisplayContainer');
+            const priceValue = document.getElementById('priceValue');
+
+            const quantityOptions = {
+                'Free Fire': [
+                    { value: '100 Gems', text: '100 جوهرة 💎', priceUSD: 1.00 },
+                    { value: '310 Gems', text: '310 جوهرة 💎', priceUSD: 3.00 },
+                    { value: '520 Gems', text: '520 جوهرة 💎', priceUSD: 5.00 },
+                    { value: '1060 Gems', text: '1060 جوهرة 💎', priceUSD: 10.00 }
+                ],
+                'PUBG': [
+                    { value: '60 UC', text: '60 شدة ⚡', priceUSD: 1.00 },
+                    { value: '325 UC', text: '325 شدة ⚡', priceUSD: 5.00 },
+                    { value: '660 UC', text: '660 شدة ⚡', priceUSD: 10.00 },
+                    { value: '1800 UC', text: '1800 شدة ⚡', priceUSD: 25.00 }
+                ],
+                'Roblox': [
+                    { value: '80 Robux', text: '80 روبوكس 🪙', priceUSD: 1.00 },
+                    { value: '400 Robux', text: '400 روبوكس 🪙', priceUSD: 5.00 },
+                    { value: '800 Robux', text: '800 روبوكس 🪙', priceUSD: 10.00 },
+                    { value: '1700 Robux', text: '1700 روبوكس 🪙', priceUSD: 20.00 }
+                ],
+                'PES': [
+                    { value: '100 Coins', text: '100 كوينز ⚽', priceUSD: 1.00 },
+                    { value: '250 Coins', text: '250 كوينز ⚽', priceUSD: 2.50 },
+                    { value: '500 Coins', text: '500 كوينز ⚽', priceUSD: 5.00 },
+                    { value: '1050 Coins', text: '1050 كوينز ⚽', priceUSD: 10.00 }
+                ]
+            };
+
+            function updateQuantityOptions() {
+                const selectedGame = gameSelect.value;
+                quantitySelect.innerHTML = '<option value="" disabled selected hidden>اختر الكمية المطلوبة...</option>';
+                
+                if (quantityOptions[selectedGame]) {
+                    quantityOptions[selectedGame].forEach(opt => {
+                        const optionElement = document.createElement('option');
+                        optionElement.value = opt.value;
+                        optionElement.innerText = opt.text;
+                        optionElement.dataset.priceUsd = opt.priceUSD;
+                        quantitySelect.appendChild(optionElement);
+                    });
+                }
+                
+                updatePriceDisplay();
+            }
+
+            function updatePriceDisplay() {
+                const selectedOption = quantitySelect.options[quantitySelect.selectedIndex];
+                if (selectedOption && selectedOption.dataset.priceUsd) {
+                    const priceUSD = parseFloat(selectedOption.dataset.priceUsd);
+                    const priceEGP = priceUSD * 40;
+                    priceValue.innerText = priceEGP;
+                    priceDisplayContainer.style.display = 'block';
+                } else {
+                    priceDisplayContainer.style.display = 'none';
+                }
+            }
+
+            gameSelect.addEventListener('change', updateQuantityOptions);
+            quantitySelect.addEventListener('change', updatePriceDisplay);
+
+            function toggleChargingMethod() {
+                if (methodId.checked) {
+                    // Show ID fields, hide account fields
+                    idFieldsContainer.classList.add('active');
+                    accountFieldsContainer.classList.remove('active');
+                    
+                    // Update required attributes
+                    playerIdInput.required = true;
+                    accountEmailInput.required = false;
+                    accountPasswordInput.required = false;
+                    
+                    // Clear values of hidden inputs so they are not submitted with garbage
+                    accountEmailInput.value = '';
+                    accountPasswordInput.value = '';
+                } else if (methodAccount.checked) {
+                    // Show account fields, hide ID fields
+                    idFieldsContainer.classList.remove('active');
+                    accountFieldsContainer.classList.add('active');
+                    
+                    // Update required attributes
+                    playerIdInput.required = false;
+                    accountEmailInput.required = true;
+                    accountPasswordInput.required = true;
+                    
+                    // Clear values of hidden inputs
+                    playerIdInput.value = '';
+                }
+            }
+
+            // Bind change events
+            methodId.addEventListener('change', toggleChargingMethod);
+            methodAccount.addEventListener('change', toggleChargingMethod);
+
+            // Run initial check
+            toggleChargingMethod();
+        });
+
+        // Copy to clipboard function
+        window.copyNumber = function() {
+            const textToCopy = "01016955335";
+            navigator.clipboard.writeText(textToCopy).then(() => {
+                const tooltip = document.getElementById('copyTooltip');
+                tooltip.innerText = 'تم النسخ! ✓';
+                setTimeout(() => {
+                    tooltip.innerText = 'اضغط للنسخ';
+                }, 2000);
+            }).catch(err => {
+                console.error('Failed to copy text: ', err);
+            });
+        };
+    </script>
+</body>
+</html>

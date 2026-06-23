@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>تم إرسال الطلب بنجاح! 🎉</title>
+    <link rel="stylesheet" href="style.css">
+    <style>
+        /* Extra styles specifically for success layout alignment */
+        .success-container {
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 1.5rem;
+        }
+        
+        .success-icon-badge {
+            font-size: 4.5rem;
+            color: var(--neon-green);
+            filter: drop-shadow(0 0 15px var(--neon-green));
+            margin-bottom: 0.5rem;
+            animation: bounce 2s infinite;
+        }
+
+        .success-title {
+            font-size: 1.8rem;
+            font-weight: 800;
+            color: var(--neon-cyan);
+            text-shadow: 0 0 10px rgba(0, 242, 254, 0.3);
+        }
+
+        .success-msg {
+            font-size: 1.1rem;
+            color: var(--text-main);
+            line-height: 1.8;
+            max-width: 450px;
+        }
+
+        .back-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            background: rgba(255, 255, 255, 0.03);
+            border: 1.5px solid var(--neon-cyan);
+            color: var(--text-main);
+            padding: 0.9rem 1.8rem;
+            border-radius: 12px;
+            font-weight: 700;
+            text-decoration: none;
+            transition: var(--transition);
+            margin-top: 1rem;
+            box-shadow: 0 0 15px rgba(0, 242, 254, 0.15);
+        }
+
+        .back-btn:hover {
+            background: var(--neon-cyan);
+            color: var(--bg-color);
+            box-shadow: 0 0 25px rgba(0, 242, 254, 0.4);
+            transform: translateY(-2px);
+        }
+
+        .back-btn:active {
+            transform: translateY(1px);
+        }
+
+        @keyframes bounce {
+            0%, 100% {
+                transform: translateY(0) scale(1);
+            }
+            50% {
+                transform: translateY(-10px) scale(1.05);
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="app-container">
+        <div class="success-container">
+            <div class="success-icon-badge">✅</div>
+            <h1 class="success-title">تم إرسال الطلب بنجاح!</h1>
+            <p class="success-msg">جاري مراجعة عملية الدفع والتأكد من البيانات، وسيتم الشحن لحسابك في أسرع وقت ممكن.</p>
+            
+            <a href="/" class="back-btn">
+                <span>العودة للرئيسية</span>
+                <span>🎮</span>
+            </a>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <p>جميع الحقوق محفوظة &copy; 2026. تعمل بواسطة <a href="#">Netlify Forms</a></p>
+    </footer>
+
+</body>
+</html>
